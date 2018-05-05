@@ -10,7 +10,7 @@
     %p.navbar-text.pull-right
       - if user_signed_in?
         Logged in as
-        %strong= current_user.email
+        %strong= current_user.to_s
         = link_to 'My profile', edit_user_registration_path
         |
         = link_to 'Logout', destroy_user_session_path, method: :delete
