@@ -1,0 +1,26 @@
+%h2
+  Edit #{@user.to_s}
+= form_for(@user) do |f|
+  .field
+    = f.label :first_name
+    %br
+    = f.text_field :first_name
+  .field
+    = f.label :last_name
+    %br
+    = f.text_field :last_name
+  .field
+    = f.label :email
+    %br
+    = f.email_field :email, disabled: true
+  .field
+    = f.label :manager
+    %br
+    = f.check_box :is_manager
+  - if devise_mapping.confirmable? && @user.pending_reconfirmation?
+    %div
+      Currently waiting confirmation for: #{@user.unconfirmed_email}
+  .actions
+    -# = link_to 'Send an invite', new_invitation_path(@user.id)
+    -# = link_to 'Resend confirmation instructions', new_confirmation_path(resource_name)
+    = f.submit 'Update'

@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def to_s
     full_name.present? ? full_name : email
   end
+
+  def role
+    is_manager ? 'Manager' : 'Regular'
+  end
 end

@@ -1,0 +1,16 @@
+The List of Users
+
+%table
+  %thead
+    %tr
+      %th Full Name
+      %th Role
+      %th Email Address
+      %th Confirmed
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= link_to user.to_s, edit_user_path(user.id)
+        %td= user.role
+        %td= user.email
+        %td= user.pending_reconfirmation? ? 'yes' : 'no'
