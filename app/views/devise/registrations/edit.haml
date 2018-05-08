@@ -1,7 +1,5 @@
-- url_path = current_user.is_admin? ? user_path(@user) : registration_path(@user)
-- title = current_user.is_admin? ? "Edit #{@user.to_s.humanize}" : 'My Profile'
-%h2= title
-= form_for(@user, url: url_path) do |f|
+%h2= page_title
+= form_for(@user, url: profile_path) do |f|
   = devise_error_messages!
   .field
     = f.label :first_name
@@ -15,14 +13,17 @@
     = f.label :email
     %br
     = f.email_field :email, autofocus: true, autocomplete: 'email'
+
   - if current_user.is_admin?
     .field
       = f.label :manager
       %br
       = f.check_box :is_manager
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+
+  - if devise_mapping.confirmable? && @user.pending_reconfirmation?
     %div
-      Currently waiting confirmation for: #{resource.unconfirmed_email}
+      Currently waiting confirmation for: #{@user.unconfirmed_email}
+
   - unless current_user.is_admin?
     .field
       = f.label :password
@@ -43,5 +44,6 @@
       %i (we need your current password to confirm your changes)
       %br
       = f.password_field :current_password, autocomplete: 'off'
+
   .actions
     = f.submit 'Update'
