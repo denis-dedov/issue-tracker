@@ -1,4 +1,15 @@
-The List of Users
+%h2 The List of Users
+
+= form_for(User.new, url: invite_user_path) do |f|
+  = devise_error_messages!
+
+  .field
+    = f.label :email
+    %br
+    = f.email_field :email
+
+  .actions
+    = f.submit 'Invite'
 
 %table
   %thead

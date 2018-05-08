@@ -1,4 +1,8 @@
 %p
-  Welcome!
-%p You can confirm your account email through the link below:
-%p= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
+  Welcome to Issue Tracker!
+%p You can activate your account through the link below:
+%p= link_to 'Activate my account', confirmation_url(@user, confirmation_token: @user.confirmation_token)
+- if @user.password
+  %p
+    For logging in use the following one time password:
+    %strong= @user.password

@@ -7,6 +7,8 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+
+    render 'devise/registrations/edit'
   end
 
   def update
@@ -18,6 +20,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def create
+    User.create(email: user_params[:email], password: Devise.friendly_token)
+
+    redirect_to users_path
+  end
+
   private
 
   def check_access
@@ -25,6 +33,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :is_manager)
+    params.require(:user).permit(:first_name, :last_name, :is_manager, :email)
   end
 end
