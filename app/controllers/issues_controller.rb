@@ -8,7 +8,6 @@ class IssuesController < ApplicationController
   def create
     @issue = Issue.new(issue_params)
     @issue.owner = current_user
-    validate
 
     if @issue.save
       redirect_to issues_path
@@ -26,7 +25,7 @@ class IssuesController < ApplicationController
     @issue.assign_attributes(issue_params)
     validate
 
-    if @issue.save
+    if @issue.errors.blank? && @issue.save
       redirect_to issues_path
     else
       render 'edit'
@@ -47,6 +46,20 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :status, :assignee_id)
+    params_list = [:title, :description]
+    params_list += [:status, :assignee_id] unless current_user.is_regular?
+    params.require(:issue).permit(params_list)
+  end
+
+  def validate
+    return unless current_user.is_manager?
+
+    if @issue.assignee_id_changed? && !@issue.assignee.in?([current_user, nil])
+      @issue.errors.add(:assignee, 'You are not abble to reassign the issue')
+    end
+
+    if @issue.status_changed? && @issue.assignee != current_user
+      @issue.errors.add(:status, 'You can change the status only for issues assigned to you')
+    end
   end
 end
