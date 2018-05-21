@@ -1,0 +1,24 @@
+%h2 Create new Issue
+
+= form_for(Issue.new) do |f|
+  .field
+    = f.label :title
+    %br
+    = f.text_field :title
+  .field
+    = f.label :description
+    %br
+    = f.text_field :description
+
+  - if current_user.is_admin?
+    .field
+      = f.label :status
+      %br
+      = f.select :status, Issue::STATUSES, disabled: true
+    .field
+      = f.label :assignee
+      %br
+      = f.collection_select :assignee_id, User.assignees, :id, :to_s, prompt: 'Select Manager'
+
+  .actions
+    = f.submit 'Create'

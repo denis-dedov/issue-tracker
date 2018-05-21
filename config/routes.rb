@@ -5,4 +5,6 @@ Rails.application.routes.draw do
 
   resources :users, except: :create
   post 'invite_user', to: 'users#create', as: :invite_user
+
+  resources :issues
 end

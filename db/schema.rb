@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_05_111137) do
+ActiveRecord::Schema.define(version: 2018_05_08_103657) do
+
+  create_table "issues", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "owner_id"
+    t.bigint "assignee_id"
+    t.string "title"
+    t.text "description"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.datetime "created_at", null: false
+    t.index ["assignee_id"], name: "index_issues_on_assignee_id"
+    t.index ["owner_id"], name: "index_issues_on_owner_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
