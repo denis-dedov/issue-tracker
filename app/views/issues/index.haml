@@ -24,3 +24,5 @@
         %td= issue.assignee.to_s
         %td= issue.owner.to_s
         %td= link_to 'Delete', issue_path(issue.id), method: :delete, data: { confirm: 'Are you sure?' }
+
+= paginate @issues

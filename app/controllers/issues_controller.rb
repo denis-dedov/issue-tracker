@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   before_action :check_user_role, only: [:create, :destroy]
 
   def index
-    @issues = current_user.issues.order(created_at: :desc)
+    @issues = current_user.issues.order(created_at: :desc).page params[:page]
   end
 
   def create

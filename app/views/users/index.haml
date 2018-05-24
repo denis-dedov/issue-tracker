@@ -25,3 +25,5 @@
         %td= user.role
         %td= user.email
         %td= user.confirmed? ? 'yes' : 'no'
+
+= paginate @users

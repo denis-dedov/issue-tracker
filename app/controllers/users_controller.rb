@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :check_access
 
   def index
-    @users = User.where(is_admin: false)
+    @users = User.where(is_admin: false).page params[:page]
   end
 
   def edit
