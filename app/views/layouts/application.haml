@@ -6,20 +6,19 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"}
+
   %body
-    %p.navbar-text.pull-right
-      - if user_signed_in?
-        Logged in as
-        %strong= current_user.to_s
-        = link_to 'My profile', edit_user_registration_path
-        |
-        = link_to 'Logout', destroy_user_session_path, method: :delete
-      - else
-        = link_to 'Sign up', new_user_registration_path
-        |
-        = link_to 'Login', new_user_session_path
-    - if notice
-      %p.alert.alert-success= notice
-    - if alert
-      %p.alert.alert-danger= alert
-    = yield
+    - if current_user
+      = render 'layouts/navbar'
+
+    .container
+      - if notice
+        %p.alert.alert-success.text-center= notice
+      - if alert
+        %p.alert.alert-danger.text-center= alert
+
+    .container= yield

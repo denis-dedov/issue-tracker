@@ -1,17 +1,12 @@
-%h2 The List of Users
-
 = form_for(User.new, url: invite_user_path) do |f|
-  = devise_error_messages!
 
-  .field
-    = f.label :email
-    %br
-    = f.email_field :email
+  .form-group.form-inline.float-right
+    = f.email_field :email, title: 'email', class: 'form-control'
+    = f.submit 'Invite', class: 'btn btn-success'
 
-  .actions
-    = f.submit 'Invite'
+%h3 The List of Users
 
-%table
+%table.table
   %thead
     %tr
       %th Full Name

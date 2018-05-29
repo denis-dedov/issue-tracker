@@ -25,10 +25,6 @@ class User < ApplicationRecord
     is_manager ? 'Manager' : 'Regular'
   end
 
-  def not_regular?
-    !is_regular?
-  end
-
   def is_regular?
     !is_manager? && !is_admin?
   end

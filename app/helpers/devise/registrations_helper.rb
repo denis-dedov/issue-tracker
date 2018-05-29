@@ -4,6 +4,6 @@ module Devise::RegistrationsHelper
   end
 
   def page_title
-    current_user.is_admin? ? "Edit #{@user.to_s.humanize}" : 'My Profile'
+    current_user.id == @user.id ? 'My Profile' : "Edit #{@user.to_s.humanize}"
   end
 end

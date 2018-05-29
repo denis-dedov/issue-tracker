@@ -1,49 +1,45 @@
 %h2= page_title
 = form_for(@user, url: profile_path) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :first_name
-    %br
-    = f.text_field :first_name
-  .field
-    = f.label :last_name
-    %br
-    = f.text_field :last_name
-  .field
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true, autocomplete: 'email'
+  = error_messages(@user)
+  .form-row
+    .form-group.col-md-3
+      = f.label :first_name
+      = f.text_field :first_name, class: 'form-control'
+    .form-group.col-md-3
+      = f.label :last_name
+      = f.text_field :last_name, class: 'form-control'
+  .form-row
+    .form-group.col-md-4
+      = f.label :email
+      = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
 
-  - if current_user.is_admin?
-    .field
-      = f.label :manager
-      %br
-      = f.check_box :is_manager
+  - if current_user.is_admin? && current_user.id != @user.id
+    .form-row
+      .form-group.col-md-4
+        = f.check_box :is_manager
+        = f.label :manager
 
   - if devise_mapping.confirmable? && @user.pending_reconfirmation?
-    %div
-      Currently waiting confirmation for: #{@user.unconfirmed_email}
+    %div Currently waiting confirmation for: #{@user.unconfirmed_email}
 
   - unless current_user.is_admin?
-    .field
-      = f.label :password
-      %i (leave blank if you don't want to change it)
-      %br
-      = f.password_field :password, autocomplete: 'off'
-      - if @minimum_password_length
-        %br
-        %em
-          = @minimum_password_length
-          characters minimum
-    .field
-      = f.label :password_confirmation
-      %br
-      = f.password_field :password_confirmation, autocomplete: 'off'
-    .field
-      = f.label :current_password
-      %i (we need your current password to confirm your changes)
-      %br
-      = f.password_field :current_password, autocomplete: 'off'
+    .form-row
+      .col-md-3
+        = f.label :password
+        = f.password_field :password, autocomplete: 'off', class: 'form-control'
+        - if @minimum_password_length
+          %em (#{@minimum_password_length} characters minimum)
+      .col-md-3
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
 
-  .actions
-    = f.submit 'Update'
+    .form-group
+      %i *leave blank if you don't want to change it
+
+
+    .form-row
+      .form-group.col-md-3
+        = f.label :current_password
+        = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+
+  = f.submit 'Save', class: 'btn btn-success'

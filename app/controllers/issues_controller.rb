@@ -5,6 +5,10 @@ class IssuesController < ApplicationController
     @issues = current_user.issues.order(created_at: :desc).page params[:page]
   end
 
+  def new
+    @issue = Issue.new
+  end
+
   def create
     @issue = Issue.new(issue_params)
     @issue.owner = current_user
@@ -55,11 +59,11 @@ class IssuesController < ApplicationController
     return unless current_user.is_manager?
 
     if @issue.assignee_id_changed? && !@issue.assignee.in?([current_user, nil])
-      @issue.errors.add(:assignee, 'You are not abble to reassign the issue')
+      @issue.errors.add(:assignee, :reassign_error)
     end
 
     if @issue.status_changed? && @issue.assignee != current_user
-      @issue.errors.add(:status, 'You can change the status only for issues assigned to you')
+      @issue.errors.add(:status, :change_error)
     end
   end
 end

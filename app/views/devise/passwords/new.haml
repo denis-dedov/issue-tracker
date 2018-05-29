@@ -1,11 +1,10 @@
-%h2 Forgot your password?
-= form_for(@user, url: password_path(:user)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true, autocomplete: 'email'
-  .actions
-    = f.submit 'Send me reset password instructions'
+.panel.col-md-6.col-md-offset-3.jumbotron
+  %h3.text-center Forgot your password?
+  = form_for(@user, url: password_path(:user)) do |f|
+    %p.form-row
+      .form-group.col-md-offset-1
+        = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: 'Email'
 
-= link_to 'Back', :back
+    .actions.text-center
+      = link_to 'Back', :back, class: 'btn btn-default btn-sm'
+      = f.submit 'Send me reset password instructions', class: 'btn btn-success btn-sm'

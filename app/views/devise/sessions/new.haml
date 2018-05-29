@@ -1,18 +1,24 @@
-%h2 Log in
-= form_for(@user, url: session_path(:user)) do |f|
-  .field
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true, autocomplete: 'email'
-  .field
-    = f.label :password
-    %br
-    = f.password_field :password, autocomplete: 'off'
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit 'Log in'
+.panel.col-md-4.col-md-offset-4.jumbotron
+  = form_for(@user, url: session_path(:user)) do |f|
+    .form-group
+      = f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'Email', class: 'form-control'
+    .form-group
+      = f.password_field :password, autocomplete: 'off', placeholder: 'Password', class: 'form-control'
+      - if devise_mapping.recoverable?
+        = link_to 'Forgot your password?', new_password_path(:user), class: 'help-link'
+    - if devise_mapping.rememberable?
+      .form-group
+        = f.check_box :remember_me
+        = f.label :remember_me, class: 'normal'
+    .text-center
+      = f.submit 'Log in', class: 'btn btn-success'
 
-= render 'devise/shared/links'
+.col-md-4.col-md-offset-4
+  .form-group.text-center
+    - if devise_mapping.confirmable?
+      %div= link_to "Didn't receive confirmation instructions?", new_confirmation_path(:user), class: 'help-link'
+    - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email)
+      %div= link_to "Didn't receive unlock instructions?", new_unlock_path(:user), class: 'help-link'
+
+
+

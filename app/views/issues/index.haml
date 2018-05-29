@@ -1,28 +1,32 @@
-%h2 The List of Issues
+.form-group
+  = link_to 'Create new Issue', new_issue_path, class: 'btn btn-primary'
 
-= link_to 'Create new Issue', new_issue_path
+- if @issues.present?
+  %h3 The List of Issues
 
-%table
-  %thead
-    %tr
-      %th Title
-      %th Description
-      %th Status
-      %th Created at
-      %th Updated at
-      %th Manager
-      %th Created by
-      %th Actions
-  %tbody
-    - @issues.each do |issue|
+  %table.table
+    %thead
       %tr
-        %td= link_to issue.title.to_s, edit_issue_path(issue.id)
-        %td= issue.description
-        %td= issue.status
-        %td= issue.created_at.to_s(:long)
-        %td= issue.updated_at.to_s(:long)
-        %td= issue.assignee.to_s
-        %td= issue.owner.to_s
-        %td= link_to 'Delete', issue_path(issue.id), method: :delete, data: { confirm: 'Are you sure?' }
+        %th Id
+        %th Title
+        %th Status
+        %th Created at
+        %th Updated at
+        %th Manager
+        %th Created by
+        - unless current_user.is_manager?
+          %th Actions
+    %tbody
+      - @issues.each do |issue|
+        %tr
+          %td ##{issue.id}
+          %td= link_to issue.title.to_s, edit_issue_path(issue.id)
+          %td= issue.status
+          %td= issue.created_at.to_s(:long)
+          %td= issue.updated_at.to_s(:long)
+          %td= issue.assignee.to_s
+          %td= issue.owner.to_s
+          - unless current_user.is_manager?
+            %td= link_to 'Delete', issue_path(issue.id), method: :delete, data: { confirm: 'Are you sure?' }
 
-= paginate @issues
+  = paginate @issues

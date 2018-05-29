@@ -1,17 +1,19 @@
 module IssuesHelper
-  def supress_status_change?
-    return false if current_user.is_admin?
-
-    current_user.is_regular? || @issue.assignee != current_user
+  def supress_attr_change?
+    current_user.is_regular? || !@issue.assignee.in?([current_user, nil])
   end
 
   def assignee_options
-    current_user.is_admin? ? User.assignees : [ current_user ]
+    return User.assignees if current_user.is_admin?
+
+    [ @issue.assignee.in?([current_user, nil]) ? current_user : @issue.assignee ]
   end
 
-  def supress_assignee_change?
-    return false if current_user.is_admin?
+  def submit_title
+    @issue.new_record? ? 'Create' : 'Update'
+  end
 
-    current_user.is_regular? || !@issue.assignee.in?([current_user, nil])
+  def timestamps_info(attr, format)
+    content_tag(:i, [attr[0..-4].capitalize, @issue.send(attr).to_s(format)].join(': '))
   end
 end

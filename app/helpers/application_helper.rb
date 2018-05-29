@@ -1,13 +1,9 @@
 module ApplicationHelper
-  def resource_name
-    :user
-  end
+  def error_messages(resourse)
+    return if resourse.errors.blank?
 
-  def resource
-    @user ||= User.new
-  end
-
-  def devise_mapping
-    Devise.mappings[:user]
+    content_tag(:div, class: 'alert alert-danger') do
+      concat resourse.errors.messages.values.flatten.map { |msg| content_tag(:li, msg) }.join.html_safe
+    end
   end
 end

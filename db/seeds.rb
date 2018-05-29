@@ -1,16 +1,34 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# create admin
+User.create(first_name: 'Admin',
+  email: 'admin@fake-provider.com',
+  password: 'admin',
+  confirmed_at: 100.days.ago,
+  is_admin: true)
 
-User.create([{ first_name: 'Admin', email: 'admin@fake-provider.com', password: 'admin', confirmed_at: Time.now.utc, is_admin: true },
-  { first_name: 'Manager', email: 'manager@fake-provider.com', password: 'manager', confirmed_at: Time.now.utc, is_manager: true },
-  { first_name: 'Regular1', email: 'regular1@fake-provider.com', password: 'regular', confirmed_at: Time.now.utc },
-  { first_name: 'Regular2', email: 'regular2@fake-provider.com', password: 'regular', confirmed_at: Time.now.utc }])
+# create managers
+managers = User.create([{ first_name: 'Jane' }, { first_name: 'John' }]) do |u|
+  u.last_name = 'Manager'
+  u.email = u.first_name + '-manager@fake-provider.com'
+  u.password = 'manager'
+  u.confirmed_at = 100.days.ago
+  u.is_manager = true
+end.concat Array.new(1)
 
-Issue.create([{ title: 'Issue from Regular 1', description: 'Simple description', status: 'pending', updated_at: 1.day.ago, owner: User.owners.first },
-  { title: 'Issue from Regular 1', description: 'Simple description', status: 'in progress', updated_at: 2.day.ago, owner: User.owners.first },
-  { title: 'Issue from Regular 2', description: 'Simple description', status: 'pending', updated_at: 3.day.ago, owner: User.owners.last }])
+# create regular users
+regulars = User.create([{ first_name: 'Anna' }, { first_name: 'Michael' }]) do |u|
+  u.last_name = 'Regular'
+  u.email = u.first_name + '-regular@fake-provider.com'
+  u.password = 'regular'
+  u.confirmed_at = 100.days.ago
+end
+
+# create bunch of identical issues
+100.times do |i|
+  Issue.create(
+    title: "Simple Issue #{i.next}",
+    description: "Simple Description #{i.next}",
+    status: Issue::STATUSES.sample,
+    updated_at: i.days.ago,
+    owner: regulars.sample,
+    assignee: managers.sample)
+end
