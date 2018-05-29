@@ -16,12 +16,22 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to users_path
     else
-      render 'edit'
+      render 'devise/registrations/edit'
     end
   end
 
-  def create
-    User.create(email: user_params[:email], password: Devise.friendly_token)
+  def invite
+    token = Devise.friendly_token
+    User.create!(email: user_params[:email], password: token, confirmation_token: token)
+    flash[:notice] = 'The invitation email was successfully sent'
+  rescue
+    flash[:alert] = 'The person has been already invited'
+  ensure
+    redirect_to users_path
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
 
     redirect_to users_path
   end

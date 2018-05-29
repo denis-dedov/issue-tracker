@@ -37,8 +37,7 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    @issue = current_user.issues.find(params[:id])
-    @issue.destroy
+    current_user.issues.find(params[:id]).destroy
 
     redirect_to issues_path
   end

@@ -1,32 +1,36 @@
-.form-group
-  = link_to 'Create new Issue', new_issue_path, class: 'btn btn-primary'
+- unless current_user.is_manager?
+  .form-group
+    = link_to 'Create new Issue', new_issue_path, class: 'btn btn-primary'
 
 - if @issues.present?
   %h3 The List of Issues
 
-  %table.table
+  %table.table.table-striped
     %thead
       %tr
-        %th Id
+        %th ID
         %th Title
         %th Status
         %th Created at
         %th Updated at
         %th Manager
-        %th Created by
+        - unless current_user.is_regular?
+          %th Created by
         - unless current_user.is_manager?
           %th Actions
     %tbody
       - @issues.each do |issue|
-        %tr
+        %tr{class: ('table-info' if issue.assignee == current_user)}
           %td ##{issue.id}
-          %td= link_to issue.title.to_s, edit_issue_path(issue.id)
+          %td= link_to issue.title.to_s, edit_issue_path(issue)
           %td= issue.status
-          %td= issue.created_at.to_s(:long)
-          %td= issue.updated_at.to_s(:long)
-          %td= issue.assignee.to_s
-          %td= issue.owner.to_s
+          %td= issue.created_at.to_s(:short)
+          %td= issue.updated_at.to_s(:short)
+          %td= user_link(issue, :assignee)
+          - unless current_user.is_regular?
+            %td= user_link(issue, :owner)
           - unless current_user.is_manager?
-            %td= link_to 'Delete', issue_path(issue.id), method: :delete, data: { confirm: 'Are you sure?' }
+            %td= delete_link(issue)
 
-  = paginate @issues
+  .row.justify-content-end
+    = paginate @issues

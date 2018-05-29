@@ -14,7 +14,7 @@
           %a#navbarDropdownMenuLink.nav-link.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', href: '#'}
             %strong= current_user.to_s
           .dropdown-menu{'aria-labelledby' => 'navbarDropdownMenuLink', style: 'color: gray'}
-            = link_to edit_user_registration_path, class: 'nav-link' do
+            = link_to edit_profile_path, class: 'nav-link' do
               %span.glyphicon.glyphicon-user
               My profile
             = link_to destroy_user_session_path, method: :delete, class: 'nav-link' do

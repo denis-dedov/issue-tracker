@@ -30,6 +30,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  set_up_password: Please set up with a new password before continue
   activerecord:
     errors:
       models:

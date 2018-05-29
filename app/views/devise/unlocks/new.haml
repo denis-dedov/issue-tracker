@@ -1,10 +1,10 @@
 .panel.col-md-6.col-md-offset-3.jumbotron
-  %h3.text-center Forgot your password?
-  = form_for(@user, url: password_path(:user)) do |f|
+  %h3.text-center Resend unlock instructions
+  = form_for(@user, url: unlock_path(:user)) do |f|
     %p.form-row
       .form-group.col-md-offset-1.col-md-10
         = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: 'Email'
 
     .actions.text-center
       = link_to 'Back', root_path, class: 'btn btn-default btn-sm'
-      = f.submit 'Send me reset password instructions', class: 'btn btn-success btn-sm'
+      = f.submit 'Resend unlock instructions', class: 'btn btn-success btn-sm'

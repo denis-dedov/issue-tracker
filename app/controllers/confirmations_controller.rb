@@ -3,8 +3,10 @@ class ConfirmationsController < Devise::ConfirmationsController
   private
 
   def after_confirmation_path_for(resource_name, resource)
-    sign_in(User.where(confirmation_token: params[:confirmation_token]).first, scope: :user)
+    return root_path unless resource.sign_in_count == 0
 
-    edit_user_registration_path
+    sign_in(resource)
+    flash[:notice] << " #{t(:set_up_password)}"
+    edit_profile_path
   end
 end

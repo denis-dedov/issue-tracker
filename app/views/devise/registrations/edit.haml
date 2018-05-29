@@ -1,45 +1,54 @@
-%h2= page_title
-= form_for(@user, url: profile_path) do |f|
-  = error_messages(@user)
-  .form-row
-    .form-group.col-md-3
-      = f.label :first_name
-      = f.text_field :first_name, class: 'form-control'
-    .form-group.col-md-3
-      = f.label :last_name
-      = f.text_field :last_name, class: 'form-control'
-  .form-row
-    .form-group.col-md-4
-      = f.label :email
-      = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-
-  - if current_user.is_admin? && current_user.id != @user.id
-    .form-row
-      .form-group.col-md-4
-        = f.check_box :is_manager
-        = f.label :manager
-
-  - if devise_mapping.confirmable? && @user.pending_reconfirmation?
-    %div Currently waiting confirmation for: #{@user.unconfirmed_email}
-
-  - unless current_user.is_admin?
-    .form-row
-      .col-md-3
-        = f.label :password
-        = f.password_field :password, autocomplete: 'off', class: 'form-control'
-        - if @minimum_password_length
-          %em (#{@minimum_password_length} characters minimum)
-      .col-md-3
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
-
-    .form-group
-      %i *leave blank if you don't want to change it
-
-
+.col-11.align-self-center
+  %h2= page_title
+  = form_for(@user, url: form_path) do |f|
+    = error_messages(@user)
     .form-row
       .form-group.col-md-3
-        = f.label :current_password
-        = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+        = f.label :first_name
+        = f.text_field :first_name, class: 'form-control'
+      .form-group.col-md-3
+        = f.label :last_name
+        = f.text_field :last_name, class: 'form-control'
+    .form-row
+      .form-group.col-md-4
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
 
-  = f.submit 'Save', class: 'btn btn-success'
+    - if current_user.is_admin? && current_user.id != @user.id
+      .form-row
+        .form-group.col-md-4
+          = f.check_box :is_manager
+          = f.label :manager
+
+    - if @user.pending_reconfirmation?
+      .info
+        Currently waiting confirmation for:
+        %strong #{@user.unconfirmed_email}
+
+    - unless current_user.is_admin?
+      .form-row
+        .col-md-3
+          = f.label :password
+          = f.password_field :password, autocomplete: 'off', class: 'form-control'
+          - if @minimum_password_length
+            %em (#{@minimum_password_length} characters minimum)
+        .col-md-3
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+
+      - if current_user.registration_finished?
+        .form-group
+          %i *leave blank if you don't want to change it
+
+        .form-row
+          .form-group.col-md-3
+            = f.label :current_password
+            = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+
+    %hr
+    .actions.col-md-6
+      .col-md-offset-5.text-right
+        = link_to 'Back', :back, class: 'btn btn-default'
+        = delete_button
+        = f.submit 'Save', class: 'btn btn-success'
+

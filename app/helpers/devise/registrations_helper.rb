@@ -1,9 +1,9 @@
 module Devise::RegistrationsHelper
-  def profile_path
-    current_user.is_admin? ? user_path(@user) : registration_path(@user)
+  def form_path
+    current_user.is_admin? ? user_path(@user) : profile_path
   end
 
   def page_title
-    current_user.id == @user.id ? 'My Profile' : "Edit #{@user.to_s.humanize}"
+    current_user == @user ? 'My Profile' : "User ##{@user.id}"
   end
 end

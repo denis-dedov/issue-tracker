@@ -16,4 +16,14 @@ module IssuesHelper
   def timestamps_info(attr, format)
     content_tag(:i, [attr[0..-4].capitalize, @issue.send(attr).to_s(format)].join(': '))
   end
+
+  def user_link(issue, role=:owner)
+    return unless user = issue.send(role)
+
+    current_user.is_admin? ? link_to(user.to_s, edit_user_path(user)) : user.to_s
+  end
+
+  def delete_link(issue, type=:link)
+    super(issue, type)
+  end
 end

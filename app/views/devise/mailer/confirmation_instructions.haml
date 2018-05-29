@@ -1,8 +1,8 @@
-%p
-  Welcome to Issue Tracker!
-%p You can activate your account through the link below:
-%p= link_to 'Activate my account', confirmation_url(@user, confirmation_token: @user.confirmation_token)
-- if @user.password
-  %p
-    For logging in use the following one time password:
-    %strong= @user.password
+%p Welcome to Issue Tracker!
+- if @user.confirmed?
+  %p You can confirm your new email address through the link below:
+  %p= link_to 'Confirm new email address', confirmation_url(@user, confirmation_token: @user.confirmation_token)
+- else
+  %p You can activate your account through the link below:
+  %p= link_to 'Activate my account', confirmation_url(@user, confirmation_token: @user.confirmation_token)
+

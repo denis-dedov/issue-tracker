@@ -1,18 +1,17 @@
 .panel.col-md-6.col-md-offset-3.jumbotron
   %h3.text-center Change your password
   = form_for(@user, url: password_path(:user)) do |f|
-    = error_messages(@user)
     = f.hidden_field :reset_password_token
-    .form-row
-      .form-group.col-md-offset-3
-        = f.label :password, 'New password'
-        = f.password_field :password, autocomplete: 'off', class: 'form-control'
-        - if @minimum_password_length
-          %em (#{@minimum_password_length} characters minimum)
-    .form-row
-      .form-group.col-md-offset-3
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+    .form-row.justify-content-center
+      .col-md-6
+        .form-group
+          = f.label :password, 'New password'
+          = f.password_field :password, autocomplete: 'off', class: 'form-control'
+          - if @minimum_password_length
+            %em (#{@minimum_password_length} characters minimum)
+        .form-group
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
 
     .actions.text-center
       = f.submit 'Change my password', class: 'btn btn-success btn-sm'
