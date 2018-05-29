@@ -1,8 +1,9 @@
-%h3 Issue ##{@issue.id}
+.col-11.align-self-center
+  %h3 Issue ##{@issue.id}
 
-.form-group.info
-  = timestamps_info(:created_at, :long)
-  %span -
-  = timestamps_info(:updated_at, :long)
+  .form-group.info
+    = timestamps_info(:created_at, :long)
+    %span -
+    = timestamps_info(:updated_at, :long)
 
-= render partial: 'form'
+  = render partial: 'form'

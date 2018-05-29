@@ -2,3 +2,25 @@
   color: gray;
   font-style: italic;
 }
+
+.edit_issue, .new_issue {
+  select {
+    width: auto;
+    min-width: 100%;
+  }
+}
+
+.edit_issue, .new_issue {
+  select:disabled {
+    color: #337ab7;
+    font-weight: bold;
+    background: none;
+    appearance: none;
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+}
+
+.right-part {
+  margin-top: 2.5rem;
+}

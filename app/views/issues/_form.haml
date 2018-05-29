@@ -1,21 +1,25 @@
 = form_for(@issue) do |f|
   = error_messages(@issue)
-  .form-row
-    .form-group.col-md-6
-      = f.label :title
-      = f.text_field :title, class: 'form-control'
-  .form-row
-    .form-group.col-md-6
-      = f.label :description
-      = f.text_area :description, rows: 7, class: 'form-control'
-  - if current_user.is_admin? || @issue.persisted?
-    .form-row
-      .form-group.col-md-2
-        = f.label :status
-        = f.select :status, Issue::STATUSES, {}, disabled: supress_attr_change?, class: 'form-control'
+  .row.justify-content-start
+    .col-md-6
+      .form-group
+        = f.label :title
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :description
+        = f.text_area :description, rows: 7, class: 'form-control'
+    - if current_user.is_admin? || @issue.persisted?
+      .col-md-5.right-part
+        .form-group.row.justify-content-end
+          = f.label :assignee, class: 'col-form-label'
+          .col-md-5
+            = f.collection_select :assignee_id, assignee_options, :id, :to_s, { include_blank: 'Select Manager' }, disabled: supress_attr_change?, class: 'form-control form-control-lg'
+        .form-group.row.justify-content-end
+          = f.label :status, class: 'col-form-label'
+          .col-md-4
+            = f.select :status, Issue::STATUSES, {}, disabled: supress_attr_change?, class: 'form-control form-control-lg'
 
-      .form-group.col-md-3.col-md-offset-1
-        = f.label :assignee
-        = f.collection_select :assignee_id, assignee_options, :id, :to_s, { include_blank: 'Select Manager' }, disabled: supress_attr_change?, class: 'form-control'
-
-  = f.submit submit_title, class: 'btn btn-success'
+  %hr
+  .actions.col-md-4.text-center
+    = link_to 'Back', :back, class: 'btn btn-default'
+    = f.submit submit_title, class: 'btn btn-success'
