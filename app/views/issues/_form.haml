@@ -17,7 +17,7 @@
         .form-group.row.justify-content-end
           = f.label :status, class: 'col-form-label'
           .col-md-4
-            = f.select :status, Issue::STATUSES, {}, disabled: supress_attr_change?, class: 'form-control form-control-lg'
+            = f.select :status, status_options, {}, disabled: supress_attr_change?, class: 'form-control form-control-lg'
 
   %hr
   .actions.col-md-4.text-center

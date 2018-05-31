@@ -1,10 +1,17 @@
-- unless current_user.is_manager?
-  .form-group
-    = link_to 'Create new Issue', new_issue_path, class: 'btn btn-primary'
+-# .row
+%h3.col-md-5.header The List of Issues
+
+.col-md-7.form-row.justify-content-end
+  - unless current_user.is_manager?
+    .form-group= link_to 'Create new Issue', new_issue_path, class: 'btn btn-success'
+  = form_tag(issues_path, method: :get, class: 'col-md-5 justify-content-end', id: :filter, enforce_utf8: false) do
+    .form-row.justify-content-end
+      .col-md-8.form-group
+        = select_tag :status, status_options(all: t(:all)), class: 'form-control'
+      .form-group
+        = submit_tag 'Filter', name: nil, class: 'btn btn-primary'
 
 - if @issues.present?
-  %h3 The List of Issues
-
   %table.table.table-striped
     %thead
       %tr
@@ -23,7 +30,7 @@
         %tr{class: ('table-info' if issue.assignee == current_user)}
           %td ##{issue.id}
           %td= link_to issue.title.to_s, edit_issue_path(issue)
-          %td= issue.status
+          %td= t(issue.status)
           %td= issue.created_at.to_s(:short)
           %td= issue.updated_at.to_s(:short)
           %td= user_link(issue, :assignee)

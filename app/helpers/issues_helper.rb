@@ -1,5 +1,7 @@
 module IssuesHelper
   def supress_attr_change?
+    return false if current_user.is_admin?
+
     current_user.is_regular? || !@issue.assignee.in?([current_user, nil])
   end
 
@@ -25,5 +27,10 @@ module IssuesHelper
 
   def delete_link(issue, type=:link)
     super(issue, type)
+  end
+
+  def status_options(default={})
+    opts = Issue.statuses.with_defaults(default).to_a.map(&:reverse)
+    options_for_select(opts, params[:status])
   end
 end

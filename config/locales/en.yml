@@ -30,6 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  pending: Pending
+  in_progress: In Progress
+  resolved: Resolved
+  all: All
+
   set_up_password: Please set up with a new password before continue
   activerecord:
     errors:

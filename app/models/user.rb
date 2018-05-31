@@ -13,7 +13,6 @@ class User < ApplicationRecord
 
   def issues
     is_regular? ? owned_issues : Issue.all
-      .includes(:owner).includes(:assignee)
   end
 
   def full_name

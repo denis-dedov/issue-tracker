@@ -2,7 +2,11 @@ class IssuesController < ApplicationController
   before_action :check_user_role, only: [:create, :destroy]
 
   def index
-    @issues = current_user.issues.order(created_at: :desc).page params[:page]
+    @issues = current_user.issues
+      .filter(filter_params)
+      .order(created_at: :desc)
+      .page(params[:page])
+      .includes(:owner, :assignee)
   end
 
   def new
@@ -49,9 +53,13 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params_list = [:title, :description]
-    params_list += [:status, :assignee_id] unless current_user.is_regular?
-    params.require(:issue).permit(params_list)
+    list = [:title, :description, :status, :assignee_id].take(current_user.is_regular? ? 2 : 4)
+
+    params.require(:issue).permit(list)
+  end
+
+  def filter_params
+    params.permit(:status)
   end
 
   def validate
