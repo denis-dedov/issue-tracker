@@ -3,6 +3,7 @@ User.create(first_name: 'Admin',
   email: 'admin@fake-provider.com',
   password: 'admin',
   confirmed_at: 100.days.ago,
+  sign_in_count: 1,
   is_admin: true)
 
 # create managers
@@ -11,6 +12,7 @@ managers = User.create([{ first_name: 'Jane' }, { first_name: 'John' }]) do |u|
   u.email = u.first_name + '-manager@fake-provider.com'
   u.password = 'manager'
   u.confirmed_at = 100.days.ago
+  u.sign_in_count = 1
   u.is_manager = true
 end.concat Array.new(1)
 
@@ -20,6 +22,7 @@ regulars = User.create([{ first_name: 'Anna' }, { first_name: 'Michael' }]) do |
   u.email = u.first_name + '-regular@fake-provider.com'
   u.password = 'regular'
   u.confirmed_at = 100.days.ago
+  u.sign_in_count = 1
 end
 
 # create bunch of identical issues

@@ -3,8 +3,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable
 
-  has_many :owned_issues, class_name: 'Issue', foreign_key: 'owner_id'
-  has_many :assigned_issues, class_name: 'Issue', foreign_key: 'assignee_id'
+  has_many :owned_issues, class_name: 'Issue', foreign_key: 'owner_id', dependent: :destroy
+  has_many :assigned_issues, class_name: 'Issue', foreign_key: 'assignee_id', dependent: :nullify
 
   scope :assignees, -> { where(is_manager: true) }
   scope :owners, -> { where.not(is_manager: true, is_admin: true) }
@@ -32,7 +32,7 @@ class User < ApplicationRecord
   end
 
   def registration_finished?
-    sign_in_count > 1 || updated_at > current_sign_in_at
+    sign_in_count > 1 || sign_in_count == 1 updated_at > sign_in_at
   end
 
   def update_with_password(params, *options)

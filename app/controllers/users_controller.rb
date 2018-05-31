@@ -22,11 +22,12 @@ class UsersController < ApplicationController
 
   def invite
     token = Devise.friendly_token
-    User.create!(email: user_params[:email], password: token, confirmation_token: token)
-    flash[:notice] = 'The invitation email was successfully sent'
-  rescue
-    flash[:alert] = 'The person has been already invited'
-  ensure
+    if User.new(email: user_params[:email], password: token, confirmation_token: token).save
+      flash[:notice] = 'The invitation email was successfully sent'
+    else
+      flash[:alert] = 'The person has been already invited'
+    end
+
     redirect_to users_path
   end
 

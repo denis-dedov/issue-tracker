@@ -6,7 +6,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     return root_path unless resource.sign_in_count == 0
 
     sign_in(resource)
-    flash[:notice] << " #{t(:set_up_password)}"
+    flash.notice << " #{t(:set_up_password)}"
     edit_profile_path
   end
 end

@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   def check_registration_step
     return if current_user.registration_finished?
 
-    redirect_to profile_path, notice: [t('.devise.confirmations.confirmed'), t(:set_up_password)].join(' ')
+    redirect_to profile_path, notice: t(:set_up_password)
   end
 end
